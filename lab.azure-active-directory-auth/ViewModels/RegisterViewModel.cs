@@ -26,14 +26,6 @@ namespace lab.azure_active_directory_auth.ViewModels
 
         public string? RoleName { get; set; }
 
-        public string? CardNumber { get; set; }
-
-        public string? CardExpiration { get; set; }
-
-        public string? CardCvc { get; set; }
-
-        public string? CardCountry { get; set; }
-
         public string? ReturnUrl { get; set; }
     }
 }

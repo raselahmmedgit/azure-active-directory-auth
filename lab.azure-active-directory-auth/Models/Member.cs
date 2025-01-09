@@ -39,31 +39,5 @@ namespace lab.azure_active_directory_auth.Models
         //[Required(ErrorMessage = "Permanent Address is required")]
         [MaxLength(500)]
         public string PermanentAddress { get; set; }
-
-
-        [DisplayName("Card Full Name")]
-        [MaxLength(256)]
-        public string CardName { get; set; }
-
-        [DisplayName("Card Number")]
-        [MaxLength(256)]
-        public string CardNumber { get; set; }
-
-        [DisplayName("Card Address")]
-        [MaxLength(128)]
-        public string CardExpirationYear { get; set; }
-
-        [DisplayName("Card Address")]
-        [MaxLength(128)]
-        public string CardExpirationMonth { get; set; }
-
-        [DisplayName("Card Cvc")]
-        [MaxLength(128)]
-        public string CardCvc { get; set; }
-
-        [DisplayName("Card Country")]
-        [MaxLength(128)]
-        public string CardCountry { get; set; }
-
     }
 }

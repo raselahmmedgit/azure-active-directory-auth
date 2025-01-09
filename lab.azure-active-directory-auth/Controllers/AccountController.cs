@@ -340,9 +340,6 @@ namespace lab.azure_active_directory_auth.Controllers
         {
             try
             {
-                string cardExpirationMonth = ((registerViewModel.CardExpiration).Split('/')[0]).Trim();
-                string cardExpirationYear = ((registerViewModel.CardExpiration).Split('/')[1]).Trim();
-
                 var memberViewModel = new MemberViewModel()
                 {
                     UserId = user.Id,
@@ -351,13 +348,7 @@ namespace lab.azure_active_directory_auth.Controllers
                     EmailAddress = registerViewModel.UserEmail,
                     PhoneNumber = "01911-045573",
                     PresentAddress = "Dhaka",
-                    PermanentAddress = "Dhaka",
-                    CardName = registerViewModel.UserName,
-                    CardNumber = registerViewModel.CardNumber,
-                    CardExpirationMonth = cardExpirationMonth,
-                    CardExpirationYear = cardExpirationYear,
-                    CardCvc = registerViewModel.CardCvc,
-                    CardCountry = registerViewModel.CardCountry
+                    PermanentAddress = "Dhaka"
                 };
 
                 var result = await _iMemberManager.InsertMemberAsync(memberViewModel);

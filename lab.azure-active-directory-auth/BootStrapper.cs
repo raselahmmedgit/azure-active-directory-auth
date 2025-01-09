@@ -32,7 +32,6 @@ namespace lab.azure_active_directory_auth
                 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
                 builder.Services.AddScoped<IMemberManager, MemberManager>();
 
-                builder.Services.AddScoped<ITokenManager, TokenManager>();
 
                 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -43,12 +42,7 @@ namespace lab.azure_active_directory_auth
                 AppConstants.WebRootPath = builder.Environment.WebRootPath;
                 AppConstants.ContentRootPath = builder.Environment.ContentRootPath;
 
-                string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
                 #region Identity
-                builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-                    .AddEntityFrameworkStores<AppIdentityDbContext>()
-                    .AddDefaultTokenProviders();
 
                 builder.Services.Configure<IdentityOptions>(options =>
                 {
@@ -71,7 +65,14 @@ namespace lab.azure_active_directory_auth
                     options.User.RequireUniqueEmail = false;
                 });
 
-                builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
+                //builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+                //    .AddEntityFrameworkStores<AppIdentityDbContext>()
+                //    .AddDefaultTokenProviders();
+
+                //builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
+
+                //builder.Services.AddScoped<ITokenManager, TokenManager>();
+
 
                 //builder.Services.ConfigureApplicationCookie(options =>
                 //{
