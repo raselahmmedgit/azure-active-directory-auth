@@ -1,0 +1,147 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+
+/*--------------------------------------------------------------
+# App Preloader
+--------------------------------------------------------------*/
+#appPreLoader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: rgba(7, 75, 123, 0.5);
+}
+
+    #appPreLoader:before {
+        content: "";
+        position: fixed;
+        top: calc(50% - 30px);
+        left: calc(50% - 30px);
+        border: 5px solid #074b7b;
+        border-top-color: #fff;
+        border-bottom-color: #fff;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        -webkit-animation: animate-apppreloader 1s linear infinite;
+        animation: animate-apppreloader 1s linear infinite;
+    }
+
+.appPreLoaderLight {
+    background: rgba(55, 81, 126, 0.4) !important;
+}
+
+@-webkit-keyframes animate-apppreloader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes animate-apppreloader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.pl-50px {
+    padding-left: 50px !important;
+}
+
+.pr-50px {
+    padding-right: 50px !important;
+}
+
+.ml-50px {
+    margin-left: 50px !important;
+}
+
+.mr-50px {
+    margin-right: 50px !important;
+}
+
+
+/*
+    Web Calculator
+*/
+
+.web-calc-container {
+    position: relative;
+    max-width: 300px;
+    width: 100%;
+    border-radius: 12px;
+    padding: 10px 20px 20px;
+    background: #fff;
+    border: 2px solid #ddd;
+}
+
+.web-calc-display {
+    height: 80px;
+    width: 100%;
+    outline: none;
+    border: none;
+    text-align: right;
+    margin-bottom: 10px;
+    font-size: 25px;
+    color: #000e1a;
+    pointer-events: none;
+}
+
+.web-calc-buttons {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+    .web-calc-buttons button {
+        padding: 10px;
+        border-radius: 6px;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #eee;
+    }
+
+        .web-calc-buttons button:active {
+            transform: scale(0.99);
+        }
+
+.web-calc-operator {
+    color: #2f9fff;
+}
+
+/*
+    Web Calculator
+*/
