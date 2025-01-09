@@ -1,5 +1,8 @@
 ﻿using lab.azure_active_directory_auth.Core;
+using lab.azure_active_directory_auth.Core.Identity;
 using lab.azure_active_directory_auth.Helpers;
+using lab.azure_active_directory_auth.JwtGenerator;
+using lab.azure_active_directory_auth.Managers;
 using lab.azure_active_directory_auth.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;

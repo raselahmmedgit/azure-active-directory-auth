@@ -23,8 +23,6 @@ namespace lab.azure_active_directory_auth.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
         private readonly ITokenManager _iTokenManager;
-        private readonly IStripePaymentGatewayManager _iStripePaymentGatewayManager;
-        private readonly IEmailSenderManager _iEmailSenderManager;
         private readonly IMemberManager _iMemberManager;
         private readonly IConfiguration _iConfiguration;
         #endregion
@@ -35,8 +33,6 @@ namespace lab.azure_active_directory_auth.Controllers
             RoleManager<ApplicationRole> roleManager,
             IPasswordHasher<ApplicationUser> passwordHasher,
             ITokenManager iTokenManager,
-            IStripePaymentGatewayManager iStripePaymentGatewayManager,
-            IEmailSenderManager iEmailSenderManager,
             IMemberManager iMemberManager,
             IConfiguration iConfiguration)
         {
@@ -46,8 +42,6 @@ namespace lab.azure_active_directory_auth.Controllers
             _roleManager = roleManager;
             _passwordHasher = passwordHasher;
             _iTokenManager = iTokenManager;
-            _iStripePaymentGatewayManager = iStripePaymentGatewayManager;
-            _iEmailSenderManager = iEmailSenderManager;
             _iMemberManager = iMemberManager;
             _iConfiguration = iConfiguration;
         }
@@ -231,18 +225,6 @@ namespace lab.azure_active_directory_auth.Controllers
                         return Ok(_result);
                     }
 
-                    #region Stripe Payment Gateway
-
-                    var resultStripePayment = await ProcessStripePaymentGatewayAsync(model);
-                    if (!resultStripePayment.Success)
-                    {
-                        _iLogger.LogInformation(LoggerMessageHelper.LogFormattedMessageForRequestSuccess("Register[POST]", resultStripePayment.Message));
-                        _result = Result.Fail(resultStripePayment.Message);
-                        return Ok(_result);
-                    }
-
-                    #endregion
-
                     //var role = new ApplicationRole
                     //{
                     //    Id = model.RoleName,
@@ -354,39 +336,6 @@ namespace lab.azure_active_directory_auth.Controllers
             return Ok(_result);
         }
 
-        private async Task<StripePaymentGatewayResult> ProcessStripePaymentGatewayAsync(RegisterViewModel registerViewModel)
-        {
-            try
-            {
-                string cardExpirationMonth = ((registerViewModel.CardExpiration).Split('/')[0]).Trim();
-                string cardExpirationYear = ((registerViewModel.CardExpiration).Split('/')[1]).Trim();
-
-                var stripePaymentGatewayViewModel = new StripePaymentGatewayViewModel() {
-                    CardNumber = registerViewModel.CardNumber,
-                    CardCvc = registerViewModel.CardCvc,
-                    CardName = registerViewModel.UserName,
-                    CardExpirationMonth = cardExpirationMonth,
-                    CardExpirationYear = cardExpirationYear,
-                    CardCurrencyCode = registerViewModel.CardCountry,
-                    CustomerEmailAddress = registerViewModel.UserEmail,
-                    CustomerPhoneNumber = "01911-045573",
-                    CustomerName = registerViewModel.UserName,
-                    CustomerDescription = "this is test",
-                    CardAmount = 10,
-                };
-
-                var result = await _iStripePaymentGatewayManager.ProcessAsync(stripePaymentGatewayViewModel);
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                //ModelState.AddModelError(string.Empty, MessageHelper.Error);
-                _iLogger.LogError(LoggerMessageHelper.FormateMessageForException(ex, "ProcessStripePaymentGatewayAsync"));
-                return StripePaymentGatewayResult.Fail(MessageHelper.Error);
-            }
-        }
-
         private async Task<Result> CreateMemberAsync(ApplicationUser user, RegisterViewModel registerViewModel)
         {
             try
@@ -417,12 +366,10 @@ namespace lab.azure_active_directory_auth.Controllers
                 {
                     ReceiverEmail = registerViewModel.UserEmail,
                     ReceiverName = registerViewModel.UserName,
-                    Subject = "Funlab sign in password",
-                    Body = EmailTemplateHelper.GetEmailTemplate("Funlab sign in password", "Funlab system-generated sign in password", registerViewModel.UserPassword),
+                    Subject = "Azure Active Directory Authentication sign in password",
+                    Body = EmailTemplateHelper.GetEmailTemplate("Azure Active Directory Authentication sign in password", "Azure Active Directory Authentication system-generated sign in password", registerViewModel.UserPassword),
                     IsHtml = true
                 };
-
-                var resultSendEmail = await _iEmailSenderManager.SendEmailMessage(emailMessage);
 
                 return result;
             }

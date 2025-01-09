@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using lab.azure_active_directory_auth.Components;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,16 +19,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "Home", new { Area = "" })">Home</a>
-                        </li>
-                    </ul>
-                    <div class="navbar-login float-right">
-                        <a class="btn btn-primary" href="@Url.Action("LogIn", "Home", new { Area = "" })">Go Premium</a>
-                    </div>
-                </div>
+                @await Component.InvokeAsync(nameof(UserInfo), new { token = @ViewData["Token"].ToString() })
             </div>
         </nav>
     </header>

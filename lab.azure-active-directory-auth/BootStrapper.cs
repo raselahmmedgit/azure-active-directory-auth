@@ -1,8 +1,6 @@
 ﻿using lab.azure_active_directory_auth.Core.Identity;
 using lab.azure_active_directory_auth.JwtGenerator;
 using lab.azure_active_directory_auth.Managers;
-using lab.azure_active_directory_auth.Model;
-using lab.azure_active_directory_auth.Models;
 using lab.azure_active_directory_auth.Repositories;
 using lab.azure_active_directory_auth.Utility;
 using lab.azure_active_directory_auth.Web.Data;
@@ -29,18 +27,12 @@ namespace lab.azure_active_directory_auth
                 builder.Services.Configure<SmsConfig>(builder.Configuration.GetSection(SmsConfig.Name));
                 builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection(EmailConfig.Name));
                 builder.Services.Configure<AppConfig>(builder.Configuration.GetSection(AppConfig.Name));
-                builder.Services.Configure<StripePaymentGatewayConfig>(builder.Configuration.GetSection(StripePaymentGatewayConfig.Name));
                 builder.Services.Configure<AppDbConfig>(builder.Configuration.GetSection(AppDbConfig.Name));
 
                 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
                 builder.Services.AddScoped<IMemberManager, MemberManager>();
 
-                builder.Services.AddScoped<IEmailSenderManager, EmailSenderManager>();
-                builder.Services.AddScoped<IStripePaymentGatewayManager, StripePaymentGatewayManager>();
-
                 builder.Services.AddScoped<ITokenManager, TokenManager>();
-
-                builder.Services.AddScoped<AppDbContextInitializer>();
 
                 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -54,9 +46,6 @@ namespace lab.azure_active_directory_auth
                 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
                 #region Identity
-                builder.Services.AddDbContext<AppIdentityDbContext>(options =>
-                    options.UseSqlServer(connectionString));
-
                 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
                     .AddEntityFrameworkStores<AppIdentityDbContext>()
                     .AddDefaultTokenProviders();
@@ -95,11 +84,6 @@ namespace lab.azure_active_directory_auth
                 //    options.SlidingExpiration = true;
                 //});
 
-                #endregion
-
-                #region Database
-                builder.Services.AddDbContext<AppDbContext>(options =>
-                   options.UseSqlServer(connectionString));
                 #endregion
 
                 #region MemoryCache
@@ -156,25 +140,6 @@ namespace lab.azure_active_directory_auth
                 #endregion
 
                 builder.Services.RegisterAutoMapper();
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public static async Task RunSeedDataAsync(WebApplication app)
-        {
-            try
-            {
-                using (var scope = app.Services.CreateScope())
-                {
-                    // Initializes and seeds the database.
-                    var appDbContextInitializer = scope.ServiceProvider.GetService<AppDbContextInitializer>();
-                    await appDbContextInitializer?.CreateDatabaseAndSeedDataAsync();
-                }
 
             }
             catch (Exception)

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<lab.azure_active_directory_auth.ViewModels.MemberViewModel>
+@{
+    ViewData["Title"] = "Admin Page";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-12 pl-50px pr-50px">
+            <h1>Member List</h1>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12 pl-50px pr-50px">
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="col-4">
+                        Full Name: @item.FullName
+                    </div>
+                    <div class="col-4">
+                        Email: @item.EmailAddress
+                    </div>
+                    <div class="col-4">
+                        Card Number: @item.CardNumber
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Member.InitMember();
+        });
+    </script>
+}

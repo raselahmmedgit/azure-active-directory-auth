@@ -23,7 +23,8 @@ namespace lab.azure_active_directory_auth.Managers
         {
             try
             {
-                var dataIEnumerable = await _iMemberRepository.GetMembersAsync();
+                await Task.Yield();
+                var dataIEnumerable = _iMemberRepository.GetMembersAsync();
                 var data = dataIEnumerable.FirstOrDefault();
                 return _iMapper.Map<Member, MemberViewModel>(data);
             }
@@ -37,7 +38,8 @@ namespace lab.azure_active_directory_auth.Managers
         {
             try
             {
-                var data = await _iMemberRepository.GetMemberAsync(id);
+                await Task.Yield();
+                var data = _iMemberRepository.GetMemberAsync(id);
                 return _iMapper.Map<Member, MemberViewModel>(data);
             }
             catch (Exception)
@@ -50,7 +52,8 @@ namespace lab.azure_active_directory_auth.Managers
         {
             try
             {
-                var data = await _iMemberRepository.GetMembersAsync();
+                await Task.Yield();
+                var data = _iMemberRepository.GetMembersAsync();
                 return _iMapper.Map<IEnumerable<Member>, IEnumerable<MemberViewModel>>(data);
             }
             catch (Exception)
@@ -63,11 +66,12 @@ namespace lab.azure_active_directory_auth.Managers
         {
             try
             {
+                await Task.Yield();
                 var data = _iMapper.Map<MemberViewModel, Member>(model);
 
-                var saveChange = await _iMemberRepository.InsertMemberAsync(data);
+                var saveChange = _iMemberRepository.InsertMemberAsync(data);
 
-                if (saveChange > 0)
+                if (saveChange == true)
                 {
                     return Result.Ok(MessageHelper.Save);
                 }
@@ -86,11 +90,12 @@ namespace lab.azure_active_directory_auth.Managers
         {
             try
             {
+                await Task.Yield();
                 var dataList = _iMapper.Map<List<MemberViewModel>, List<Member>>(modelList);
 
-                var saveChange = await _iMemberRepository.InsertMemberAsync(dataList);
+                var saveChange = _iMemberRepository.InsertMemberAsync(dataList);
 
-                if (saveChange > 0)
+                if (saveChange == true)
                 {
                     return Result.Ok(MessageHelper.Save);
                 }
@@ -109,11 +114,12 @@ namespace lab.azure_active_directory_auth.Managers
         {
             try
             {
+                await Task.Yield();
                 var data = _iMapper.Map<MemberViewModel, Member>(model);
 
-                var saveChange = await _iMemberRepository.UpdateMemberAsync(data);
+                var saveChange = _iMemberRepository.UpdateMemberAsync(data);
 
-                if (saveChange > 0)
+                if (saveChange == true)
                 {
                     return Result.Ok(MessageHelper.Update);
                 }
@@ -132,14 +138,15 @@ namespace lab.azure_active_directory_auth.Managers
         {
             try
             {
+                await Task.Yield();
                 var model = await GetMemberAsync(id);
                 if (model != null)
                 {
                     var data = _iMapper.Map<MemberViewModel, Member>(model);
 
-                    var saveChange = await _iMemberRepository.DeleteMemberAsync(data);
+                    var saveChange = _iMemberRepository.DeleteMemberAsync(data);
 
-                    if (saveChange > 0)
+                    if (saveChange == true)
                     {
                         return Result.Ok(MessageHelper.Delete);
                     }

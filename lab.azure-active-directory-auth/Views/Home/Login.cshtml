@@ -1,0 +1,41 @@
+﻿@{ 
+    ViewData["Title"] = "Sign In";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<!--Login Page-->
+<div class="row mt-4">
+    <div class="col-12 pl-50px pr-50px">
+        <a class="btn btn-primary" href="@Url.Action("LogIn", "Home", new { Area = "" })">Sign In</a>
+        <a class="btn btn-secondary" href="@Url.Action("Register", "Home", new { Area = "" })">Sign Up</a>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12 pl-50px pr-50px">
+        <div class="">
+            @* <h2 class="mb-3 font-weight-normal">Sign In</h2> *@
+            <div class="mb-3">
+                <div class="validation-message message"></div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="UserEmail" class="control-label">Email</label>
+                <input type="email" id="UserEmail" name="UserEmail" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="UserPassword" class="control-label">Password</label>
+                <input type="password" id="UserPassword" name="UserPassword" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="mt-2">
+                <button class="btn btn-primary btn-block" id="btnSignInSubmit">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SignIn.InitSignIn();
+        });
+    </script>
+}
